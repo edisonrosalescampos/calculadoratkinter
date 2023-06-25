@@ -3,8 +3,9 @@ from tkinter import messagebox
 
 class Calculadora:
   def __init__(self):
-    self.ventana = Tk()
+    self.ventana = Tk()    
     self.ventana.title("Calculadora Básica")
+    self.ventana.iconbitmap("calculadora.ico")
     #self.ventana.geometry("392x600")
     
     # CONFIGURAMOS LA PANTALLA
@@ -55,11 +56,14 @@ class Calculadora:
     # OPCIÓN IGUAL
     if tecla == "=" and self.operacion != "":
       try:
-        resultado = eval(self.operacion)
+        resultado = str(eval(self.operacion))
+        self.operacion = resultado
         self.limpiarPantalla()
         self.mostrarPantalla(resultado)
       except ZeroDivisionError:
         messagebox.showwarning(title="Notificación", message="No es posible la división entre cero.")
+      except SyntaxError:
+        messagebox.showwarning(title="Notificación", message="El formato usado no es válido.")
 
     # OPCIÓN LIMPIAR PANTALLA
     elif tecla == "BORRAR":
@@ -69,7 +73,7 @@ class Calculadora:
     elif tecla == u"\u232B":
       self.borrarPantalla()
 
-    # TODAS LAS DEMáS TECLAS
+    # TODAS LAS DEMÁS TECLAS
     else:
       self.operacion += tecla
       self.mostrarPantalla(tecla)
@@ -83,7 +87,6 @@ class Calculadora:
   def borrarPantalla(self):
     texto = self.pantalla.get(1.0, END)
     texto = texto[:-2]
-
     self.operacion = texto
     self.habilitarPantalla()
     self.pantalla.delete(1.0, END)
@@ -91,7 +94,6 @@ class Calculadora:
     self.deshabilitarPantalla()
 
   def limpiarPantalla(self):
-    self.operacion = ""
     self.habilitarPantalla()    
     self.pantalla.delete(1.0, END)
     self.deshabilitarPantalla()
