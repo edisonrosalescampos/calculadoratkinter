@@ -53,7 +53,7 @@ class Calculadora:
   def capturarClic(self, tecla):
     # OPCIÓN IGUAL
     if tecla == "=" and self.operacion != "":
-      resultado = eval(self.operacion);
+      resultado = eval(self.operacion)
       self.limpiarPantalla()
       self.mostrarPantalla(resultado)
 
@@ -66,7 +66,7 @@ class Calculadora:
     elif tecla == u"\u232B":
       self.borrarPantalla()
 
-    # TODAS LAS DEMAS TECLAS
+    # TODAS LAS DEMáS TECLAS
     else:
       self.operacion += tecla
       self.mostrarPantalla(tecla)
