@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import messagebox
 
 class Calculadora:
   def __init__(self):
@@ -53,13 +54,15 @@ class Calculadora:
   def capturarClic(self, tecla):
     # OPCIÓN IGUAL
     if tecla == "=" and self.operacion != "":
-      resultado = eval(self.operacion)
-      self.limpiarPantalla()
-      self.mostrarPantalla(resultado)
+      try:
+        resultado = eval(self.operacion)
+        self.limpiarPantalla()
+        self.mostrarPantalla(resultado)
+      except ZeroDivisionError:
+        messagebox.showwarning(title="Notificación", message="No es posible la división entre cero.")
 
     # OPCIÓN LIMPIAR PANTALLA
     elif tecla == "BORRAR":
-      self.operacion = ""
       self.limpiarPantalla()
 
     # OPCIÓN BORRAR ÚLTIMO CARACTER
@@ -78,15 +81,18 @@ class Calculadora:
     self.pantalla.configure(state="disabled")
 
   def borrarPantalla(self):
-    self.habilitarPantalla()
     texto = self.pantalla.get(1.0, END)
     texto = texto[:-2]
+
+    self.operacion = texto
+    self.habilitarPantalla()
     self.pantalla.delete(1.0, END)
     self.pantalla.insert(END, texto)
     self.deshabilitarPantalla()
 
   def limpiarPantalla(self):
-    self.habilitarPantalla()
+    self.operacion = ""
+    self.habilitarPantalla()    
     self.pantalla.delete(1.0, END)
     self.deshabilitarPantalla()
 
